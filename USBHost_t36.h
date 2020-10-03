@@ -125,7 +125,7 @@ class USBDriverTimer;
 
 
 // USBSerial formats - Lets encode format into bits
-// Bits: 0-4 - Number of data bits 
+// Bits: 0-4 - Number of data bits
 // Bits: 5-7 - Parity (0=none, 1=odd, 2 = even)
 // bits: 8-9 - Stop bits. 0=1, 1=2
 
@@ -531,7 +531,7 @@ protected:
 
 
 // Device drivers may inherit from this base class, if they wish to receive
-// HID input like data from Bluetooth HID device. 
+// HID input like data from Bluetooth HID device.
 class BluetoothController;
 
 class BTHIDInput {
@@ -677,12 +677,12 @@ protected:
 	void parse(uint16_t type_and_report_id, const uint8_t *data, uint32_t len);
 	void init();
 
-	// Atempt for RAWhid to take over processing of data 
-	// 
+	// Atempt for RAWhid to take over processing of data
+	//
 	uint16_t inSize(void) {return in_size;}
 	uint16_t outSize(void) {return out_size;}
 
-	uint8_t activeSendMask(void) {return txstate;} 
+	uint8_t activeSendMask(void) {return txstate;}
 
 private:
 	Pipe_t *in_pipe;
@@ -733,7 +733,7 @@ public:
 	const uint8_t *serialNumber();
 
 	operator bool() { return ((device != nullptr) || (btdevice != nullptr)); }
-	// Main boot keyboard functions. 
+	// Main boot keyboard functions.
 	uint16_t getKey() { return keyCode; }
 	uint8_t  getModifiers() { return modifiers; }
 	uint8_t  getOemKey() { return keyOEM; }
@@ -773,7 +773,7 @@ protected:
 	virtual void release_bluetooth();
 
 
-protected:	// HID functions for extra keyboard data. 
+protected:	// HID functions for extra keyboard data.
 	virtual hidclaim_t claim_collection(USBHIDParser *driver, Device_t *dev, uint32_t topusage);
 	virtual void hid_input_begin(uint32_t topusage, uint32_t type, int lgmin, int lgmax);
 	virtual void hid_input_data(uint32_t usage, int32_t value);
@@ -801,7 +801,7 @@ private:
 	Transfer_t mytransfers[4] __attribute__ ((aligned(32)));
 	strbuf_t mystring_bufs[1];
 
-	// Added to process secondary HID data. 
+	// Added to process secondary HID data.
 	void (*extrasKeyPressedFunction)(uint32_t top, uint16_t code);
 	void (*extrasKeyReleasedFunction)(uint32_t top, uint16_t code);
 	uint32_t topusage_ = 0;					// What top report am I processing?
@@ -912,20 +912,20 @@ public:
 	uint64_t axisChangeNotifyMask() {return axis_change_notify_mask_;}
 	void 	 axisChangeNotifyMask(uint64_t notify_mask) {axis_change_notify_mask_ = notify_mask;}
 
-	// set functions functionality depends on underlying joystick. 
+	// set functions functionality depends on underlying joystick.
     bool setRumble(uint8_t lValue, uint8_t rValue, uint8_t timeout=0xff);
     // setLEDs on PS4(RGB), PS3 simple LED setting (only uses lb)
-    bool setLEDs(uint8_t lr, uint8_t lg, uint8_t lb);  // sets Leds, 
-    bool inline setLEDs(uint32_t leds) {return setLEDs((leds >> 16) & 0xff, (leds >> 8) & 0xff, leds & 0xff);}  // sets Leds - passing one arg for all leds 
+    bool setLEDs(uint8_t lr, uint8_t lg, uint8_t lb);  // sets Leds,
+    bool inline setLEDs(uint32_t leds) {return setLEDs((leds >> 16) & 0xff, (leds >> 8) & 0xff, leds & 0xff);}  // sets Leds - passing one arg for all leds
 	enum { STANDARD_AXIS_COUNT = 10, ADDITIONAL_AXIS_COUNT = 54, TOTAL_AXIS_COUNT = (STANDARD_AXIS_COUNT+ADDITIONAL_AXIS_COUNT) };
 	typedef enum { UNKNOWN=0, PS3, PS4, XBOXONE, XBOX360, PS3_MOTION, SpaceNav} joytype_t;
-	joytype_t joystickType() {return joystickType_;} 
+	joytype_t joystickType() {return joystickType_;}
 
 	// PS3 pair function. hack, requires that it be connect4ed by USB and we have the address of the Bluetooth dongle...
 	bool PS3Pair(uint8_t* bdaddr);
 
-	
-	
+
+
 protected:
 	// From USBDriver
 	virtual bool claim(Device_t *device, int type, const uint8_t *descriptors, uint32_t len);
@@ -967,18 +967,18 @@ private:
 	int axis[TOTAL_AXIS_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	uint64_t axis_mask_ = 0;	// which axis have valid data
 	uint64_t axis_changed_mask_ = 0;
-	uint64_t axis_change_notify_mask_ = 0x3ff;	// assume the low 10 values only. 
+	uint64_t axis_change_notify_mask_ = 0x3ff;	// assume the low 10 values only.
 
 	uint16_t additional_axis_usage_page_ = 0;
 	uint16_t additional_axis_usage_start_ = 0;
 	uint16_t additional_axis_usage_count_ = 0;
 
 	// State values to output to Joystick.
-	uint8_t rumble_lValue_ = 0; 
+	uint8_t rumble_lValue_ = 0;
 	uint8_t rumble_rValue_ = 0;
 	uint8_t rumble_timeout_ = 0;
 	uint8_t leds_[3] = {0,0,0};
-	uint8_t connected_ = 0;	// what type of device if any is connected xbox 360... 
+	uint8_t connected_ = 0;	// what type of device if any is connected xbox 360...
 
 
 	// Used by HID code
@@ -1000,7 +1000,7 @@ private:
 	Pipe_t 			*rxpipe_;
 	Pipe_t 			*txpipe_;
 	uint8_t 		rxbuf_[64];	// receive circular buffer
-	uint8_t			txbuf_[64];		// buffer to use to send commands to joystick 
+	uint8_t			txbuf_[64];		// buffer to use to send commands to joystick
 	// Mapping table to say which devices we handle
 	typedef struct {
 		uint16_t 	idVendor;
@@ -1281,19 +1281,24 @@ public:
 		// type: 0xF8-0xFF - if more specific handler not configured
 		handleRealTimeSystem = fptr;
 	}
+
+	virtual void write_packed(uint32_t data);
+          // prh - made public and virtual
+
 protected:
 	virtual bool claim(Device_t *device, int type, const uint8_t *descriptors, uint32_t len);
 	virtual void disconnect();
 	static void rx_callback(const Transfer_t *transfer);
 	static void tx_callback(const Transfer_t *transfer);
-	void rx_data(const Transfer_t *transfer);
-	void tx_data(const Transfer_t *transfer);
+	virtual void rx_data(const Transfer_t *transfer);       // prh made virtual
+	virtual void tx_data(const Transfer_t *transfer);       // prh made virtual
 	void init();
-	void write_packed(uint32_t data);
 	void send_sysex_buffer_has_term(const uint8_t *data, uint32_t length, uint8_t cable);
 	void send_sysex_add_term_bytes(const uint8_t *data, uint32_t length, uint8_t cable);
 	void sysex_byte(uint8_t b);
-private:
+
+// prh - made protected (was private:)
+protected:
 	Pipe_t *rxpipe;
 	Pipe_t *txpipe;
 	//enum { MAX_PACKET_SIZE = 64 };
@@ -1315,6 +1320,9 @@ private:
 	uint16_t rx_tail;
 	volatile uint8_t tx1_count;
 	volatile uint8_t tx2_count;
+
+// prh added private: here
+private:
 	uint8_t rx_ep;
 	uint8_t tx_ep;
 	uint8_t rx_ep_type;
@@ -1424,7 +1432,7 @@ private:
 	USBDriverTimer txtimer;
 	uint32_t bigbuffer[(BUFFER_SIZE+3)/4];
 	setup_t setup;
-	uint8_t setupdata[16]; // 
+	uint8_t setupdata[16]; //
 	uint32_t baudrate;
 	uint32_t format_;
 	uint32_t write_timeout_ = DEFAULT_WRITE_TIMEOUT;
@@ -1718,7 +1726,7 @@ private:
 
 class BluetoothController: public USBDriver {
 public:
-	BluetoothController(USBHost &host, bool pair = false, const char *pin = "0000") : do_pair_device_(pair), pair_pincode_(pin), delayTimer_(this) 
+	BluetoothController(USBHost &host, bool pair = false, const char *pin = "0000") : do_pair_device_(pair), pair_pincode_(pin), delayTimer_(this)
 			 { init(); }
 
 	enum {MAX_ENDPOINTS=4, NUM_SERVICES=4, };  // Max number of Bluetooth services - if you need more than 4 simply increase this number
@@ -1827,7 +1835,7 @@ private:
 	uint8_t 		rxbuf_[256];	// used to receive data from RX, which may come with several packets...
 	uint8_t 		rx_packet_data_remaining=0; // how much data remaining
 	uint8_t 		rx2buf_[64];	// receive buffer from Bulk end point
-	uint8_t			txbuf_[256];	// buffer to use to send commands to bluetooth 
+	uint8_t			txbuf_[256];	// buffer to use to send commands to bluetooth
 	uint8_t			hciVersion;		// what version of HCI do we have?
 
 	bool 			do_pair_device_;	// Should we do a pair for a new device?
@@ -1839,8 +1847,8 @@ private:
     uint8_t			device_bdaddr_[6];// remember devices address
     uint8_t			device_ps_repetion_mode_ ; // mode
     uint8_t			device_clock_offset_[2];
-    uint32_t		device_class_;	// class of device. 
-    uint16_t		device_connection_handle_;	// handle to connection 
+    uint32_t		device_class_;	// class of device.
+    uint16_t		device_connection_handle_;	// handle to connection
 	uint8_t    		remote_ver_;
 	uint16_t		remote_man_;
 	uint8_t			remote_subv_;
